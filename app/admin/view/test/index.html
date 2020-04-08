@@ -1,0 +1,212 @@
+{extend name="main" /}
+
+{block name="css"}
+<style>
+    .red{color: red;}
+</style>
+{/block}
+{block name="body"}
+{include file="breadcrumb" /}
+<div class="layui-fluid">
+    <div class="layui-row layui-col-space15">
+        <div class="layui-col-md12">
+            <div class="layui-card">
+                <div class="layui-card-header">快速获取 <b>系统设置</b> 值</div>
+                <div class="layui-card-body" pad15="">
+                    <blockquote class="layui-elem-quote layui-quote-nm">
+                        基本设置 “admin/config/base” - 生成配置文件路径 config/cfg/base.php
+                        <br>快速获取：<span class="red">xn_cfg('base.filename')</span> &nbsp; 其中filename为你的表单字段名
+                    </blockquote>
+                    <blockquote class="layui-elem-quote layui-quote-nm">
+                        上传配置 “admin/config/upload” - 生成配置文件路径 config/cfg/upload.php
+                        <br>快速获取：<span class="red">xn_cfg('upload.filename')</span>
+                    </blockquote>
+                </div>
+            </div>
+
+            <div class="layui-card">
+                <div class="layui-card-header">上传图片</div>
+                <div class="layui-card-body">
+                    <form action="{:request()->url()}" method="post" class="xn_ajax">
+                        <div class="layui-form" wid100="" lay-filter="">
+                            <div class="layui-form-item">
+                                <label class="layui-form-label">单图上传</label>
+                                <div class="layui-input-block">
+                                    {:xn_upload_one($value,'image')}
+                                </div>
+
+                            </div>
+                            <div class="layui-form-item">
+                                <label class="layui-form-label">多图上传</label>
+                                <div class="layui-input-block">
+                                    {:xn_upload_multi($value,'images',1,'50,50|200,200')}
+                                </div>
+                            </div>
+
+                            <div class="layui-form-item">
+                                <label class="layui-form-label"></label>
+                                <div class="layui-input-block">
+                                    调用代码：$value为默认值，第二个参数为自定义的字段名<br>
+                                    单图：<span class="red">&#123;&#58;&#120;&#110;&#95;&#117;&#112;&#108;&#111;&#97;&#100;&#95;&#111;&#110;&#101;&#40;&#36;&#118;&#97;&#108;&#117;&#101;&#44;&#39;&#105;&#109;&#97;&#103;&#101;&#39;&#41;&#125;</span>
+                                    <br>
+                                    多图：<span class="red">&#123;&#58;&#120;&#110;&#95;&#117;&#112;&#108;&#111;&#97;&#100;&#95;&#109;&#117;&#108;&#116;&#105;&#40;&#36;&#118;&#97;&#108;&#117;&#101;&#44;&#39;&#105;&#109;&#97;&#103;&#101;&#115;&#39;&#41;&#125;</span>
+                                    <br><b>添加水印、生成缩略图</b><br>
+                                    xn_upload_one($value,$file_name,$water=null,$thumb=null)<br>
+                                    $value：为默认值，必须，没有默认值传空<br>
+                                    $file_name：为表单名称，必须<br>
+                                    $water：是否添加水印，可不填，不填写则按照系统配置的设定。0不添加水印  1添加水印<br>
+                                    $thumb：生成缩略图，可不填。生成缩略图带上参数，格式（宽,高），如： 200,200，多个缩略图用 “ | ”号隔开 <br>注意，生成缩略图仅对本地存储方式有效，七牛、oss存储方式建议使用官方提供的图片样式功能
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+            <div class="layui-card">
+                <div class="layui-card-header">js相关项</div>
+                <div class="layui-card-body" pad15="">
+                    <table class="layui-table">
+                        <thead>
+                        <tr>
+                            <th colspan="4"><b>基于layer封装的常用函数</b></th>
+                        </tr>
+                        <tr>
+                            <th>函数名（必填参数）</th>
+                            <th>说明</th>
+                            <th>完整参数</th>
+                            <th>演示</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr>
+                            <td width="140">xn_msg(msg)</td>
+                            <td>msg提示</td>
+                            <td>xn_msg(内容, 秒)</td>
+                            <td>
+                                <input class="layui-btn layui-btn-sm" type="button" value="xn_msg('默认效果')" onclick="xn_msg('hollow，小牛admin')">
+                                <input class="layui-btn layui-btn-sm" type="button" value="xn_msg('5秒后关掉..',5)" onclick="xn_msg('5秒后关掉..',5)">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>xn_alert(msg)</td>
+                            <td>alert弹出框</td>
+                            <td>xn_alert(内容, icon数字, 自定义按钮文字)</td>
+                            <td>
+                                <input class="layui-btn layui-btn-sm" type="button" value="xn_alert('默认效果')" onclick="xn_alert('hollow，小牛admin')">
+                                <input class="layui-btn layui-btn-sm" type="button" value="xn_alert('hollow',6)" onclick="xn_alert('hollow，小牛admin',6)">
+                                <input class="layui-btn layui-btn-sm" type="button" value="xn_alert('hollow',6,'自定义按钮')" onclick="xn_alert('hollow，小牛admin',5,'自定义按钮')">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>xn_alert_reload(msg)</td>
+                            <td>alert弹出框,点击确定按钮后刷新页面</td>
+                            <td>xn_alert_reload(内容, icon数字, 自定义按钮文字)</td>
+                            <td>
+                                <input class="layui-btn layui-btn-sm" type="button" value="xn_alert_reload('默认效果')" onclick="xn_alert_reload('hollow，小牛admin')">
+                                <input class="layui-btn layui-btn-sm" type="button" value="xn_alert_reload('hollow',6)" onclick="xn_alert_reload('hollow，小牛admin',6)">
+                                <input class="layui-btn layui-btn-sm" type="button" value="xn_alert_reload('hollow',6,'自定义按钮')" onclick="xn_alert_reload('hollow，小牛admin',5,'自定义按钮')">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>xn_alert_gourl(msg,url)</td>
+                            <td>alert弹出框,点击确定按钮调整到指定URL</td>
+                            <td>xn_alert_gourl(内容, 网址URL, 自定义按钮文字)</td>
+                            <td>
+                                <input class="layui-btn layui-btn-sm" type="button" value="xn_alert_gourl('默认效果',url)" onclick="xn_alert_gourl('提交成功','/admin/index/home.html')">
+                                <input class="layui-btn layui-btn-sm" type="button" value="xn_alert_gourl('hollow',url,'自定义按钮')" onclick="xn_alert_gourl('提交成功','/admin/index/home.html','自定义按钮')">
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+
+                    <table class="layui-table" style="margin-top: 15px;">
+                        <thead>
+                        <tr>
+                            <th colspan="5"><b>jquery选择器</b></th>
+                        </tr>
+                        <tr>
+                            <th>操作</th>
+                            <th>样式名称</th>
+                            <th>说明</th>
+                            <th>参数</th>
+                            <th>演示</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr>
+                            <td width="140">弹窗</td>
+                            <td>.xn_open</td>
+                            <td>打开一个弹窗页面，&lt;a&gt; 标签加上 class='xn_open'</td>
+                            <td>
+                                <p>href：弹窗链接地址<span class="red">(必须)</span></p>
+                                <p>title：窗口标题，非必须</p>
+                                <p>data-width：窗口宽度（需带单位：px或%），非必须</p>
+                                <p>data-height：窗口高度（需带单位：px或%），非必须</p>
+                            </td>
+                            <td>
+                                <a href="{:url('admin/info')}" data-width="600px" data-height="450px" class="layui-btn layui-btn-sm xn_open" title="这是演示的">
+                                    URL弹窗演示
+                                </a>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>删除前提示</td>
+                            <td>.xn_delete</td>
+                            <td>在 &lt;a&gt; 标签加上 class='delete'</td>
+                            <td>
+                                <p>href：弹窗链接地址<span class="red">(必须)</span></p>
+                                <p>title：窗口标题，非必须</p>
+                            </td>
+                            <td>
+                                <a href="{:url('test/delete')}" class="layui-btn layui-btn-sm xn_delete" title="确定要删除XXX吗？">
+                                    删除提示演示
+                                </a>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>ajax提交表单</td>
+                            <td>.xn_ajax</td>
+                            <td>
+                                在 &lt;form&gt; 标签加上class='xn_ajax'
+                            </td>
+                            <td>
+                                <p>action: 需加在form里<span class="red">(必须)</span></p>
+                                <p>method：使用post方式提交<span class="red">(必须)</span></p>
+                                <p>data-type：如是弹窗打开的表单页面，需要在form标签里加上 <span class="red"> data-type="open"</span>，请求成功后将关闭窗口，刷新父iframe页面</p>
+                            </td>
+                            <td>
+                                <a href="{:url('test/add')}" class="layui-btn layui-btn-sm xn_open" title="">
+                                    ajax提交表单演示
+                                </a>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <div class="layui-card">
+                <div class="layui-card-header">编辑器</div>
+                <div class="layui-card-body" pad15="">
+                    <textarea name="content" id="content"></textarea>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{/block}
+
+{block name="js"}
+<!--编辑器-->
+<script src="/static/admin/ueditor/ueditor.config.js"></script>
+<script src="/static/admin/ueditor/ueditor.all.min.js"></script>
+<script src="/static/admin/ueditor/lang/zh-cn/zh-cn.js"></script>
+<script>
+    UE.getEditor('content',{
+        initialFrameWidth :800,// 设置编辑器宽度
+        initialFrameHeight:200,// 设置编辑器高度
+        scaleEnabled:true
+    });
+</script>
+{/block}

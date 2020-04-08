@@ -1,0 +1,67 @@
+{extend name="main" /}
+
+{block name="body"}
+{include file="breadcrumb" /}
+<div class="layui-fluid">
+    <div class="layui-row layui-col-space15">
+        <div class="layui-col-md12">
+            <div class="layui-card">
+                <div class="layui-card-header">网站设置</div>
+                <div class="layui-card-body" pad15="">
+                    <form action="{:request()->url()}" method="post" class="xn_ajax">
+                        <div class="layui-form" wid100="" lay-filter="">
+                            <div class="layui-form-item">
+                                <label class="layui-form-label">系统名称</label>
+                                <div class="layui-input-block">
+                                    <input type="text" name="sys_name" value="{$data.sys_name}" class="layui-input">
+                                </div>
+                            </div>
+                            <div class="layui-form-item">
+                                <label class="layui-form-label">Logo</label>
+                                <div class="layui-input-block">
+                                    {:xn_upload_one($data['logo'],'logo',0)}
+                                </div>
+                            </div>
+                            <div class="layui-form-item">
+                                <label class="layui-form-label">网站名称</label>
+                                <div class="layui-input-block">
+                                    <input type="text" name="sitename" value="{$data.sitename}" class="layui-input">
+                                </div>
+                            </div>
+                            <div class="layui-form-item layui-form-text">
+                                <label class="layui-form-label">首页标题</label>
+                                <div class="layui-input-block">
+                                    <input type="text" name="title" value="{$data.title}" class="layui-input">
+                                </div>
+                            </div>
+                            <div class="layui-form-item layui-form-text">
+                                <label class="layui-form-label">META关键词</label>
+                                <div class="layui-input-block">
+                                    <textarea name="keywords" class="layui-textarea" placeholder="多个关键词用英文状态 , 号分割">{$data.keywords}</textarea>
+                                </div>
+                            </div>
+                            <div class="layui-form-item layui-form-text">
+                                <label class="layui-form-label">META描述</label>
+                                <div class="layui-input-block">
+                                    <textarea name="description" class="layui-textarea">{$data.description}</textarea>
+                                </div>
+                            </div>
+                            <div class="layui-form-item layui-form-text">
+                                <label class="layui-form-label">版权信息</label>
+                                <div class="layui-input-block">
+                                    <textarea name="copyright" class="layui-textarea">{$data.copyright}</textarea>
+                                </div>
+                            </div>
+                            <div class="layui-form-item">
+                                <div class="layui-input-block">
+                                    <button class="layui-btn" lay-submit="" lay-filter="set_website">确认保存</button>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{/block}

@@ -1,0 +1,56 @@
+{extend name="iframe" /}
+
+{block name="body"}
+<div class="layui-fluid">
+    <div class="layui-row layui-col-space15">
+        <div class="layui-form" lay-filter="layuiadmin-app-form-list" id="layuiadmin-app-form-list">
+            <form action="{:request()->url()}" method="post" class="xn_ajax" data-type="open">
+                <div class="layui-form-item">
+                    <label class="layui-form-label">上级ID</label>
+                    <div class="layui-input-block">
+                        <select name="pid" lay-verify="required">
+                            <option value="0">顶级分类</option>
+                            {foreach name="list" item="vo"}
+                            <option value="{$vo.id}" {if condition="$pid eq $vo['id']"}selected{/if} >{$vo._name}</option>
+                            {/foreach}
+                        </select>
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label">操作名</label>
+                    <div class="layui-input-block">
+                        <input type="text" name="title" lay-verify="required" placeholder="操作名" autocomplete="off" class="layui-input" value="{$data.title}">
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label">控制器</label>
+                    <div class="layui-input-block">
+                        <input type="text" name="name" lay-verify="required" placeholder="模块/控制器/方法" autocomplete="off" class="layui-input" value="{$data.name}">
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label">设为菜单</label>
+                    <div class="layui-input-block">
+                        <input type="checkbox" lay-verify="required" lay-filter="is_menu" name="is_menu" lay-skin="switch" lay-text="显示|隐藏" value="1" {if condition="$data['is_menu'] eq 1"}checked{/if} >
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label">菜单icon</label>
+                    <div class="layui-input-inline">
+                        <input type="text" name="icon" placeholder="" autocomplete="off" class="layui-input" value="{$data.icon}">
+                    </div>
+                    <div class="layui-form-mid layui-word-aux">
+                        layui字体图标 <a href="https://www.layui.com/doc/element/icon.html" target="_blank" style="color: #1E9FFF">前往>></a>
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <div class="layui-input-block">
+                        <button type="submit" class="layui-btn">保存</button>
+                        <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+{/block}

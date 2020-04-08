@@ -1,0 +1,126 @@
+{extend name="main" /}
+{block name="body"}
+<div id="LAY_app" class="layadmin-tabspage-none">
+    <div class="layui-layout layui-layout-admin">
+        <div class="layui-header">
+            <!-- 头部区域 -->
+            <ul class="layui-nav layui-layout-left">
+                <li class="layui-nav-item layadmin-flexible" lay-unselect="">
+                    <a href="javascript:;" class="even_flexible" title="侧边伸缩">
+                        <i class="layui-icon layui-icon-shrink-right" id="LAY_app_flexible"></i>
+                    </a>
+                </li>
+                <!--<li class="layui-nav-item layui-this layui-hide-xs layui-hide-sm layui-show-md-inline-block">
+                  <a lay-href="" title="">
+                    控制台
+                  </a>
+                </li>-->
+                <li class="layui-nav-item layui-hide-xs" lay-unselect="">
+                    <a href="/" target="_blank" title="前台">
+                        <i class="layui-icon layui-icon-website"></i>
+                    </a>
+                </li>
+                <li class="layui-nav-item" lay-unselect="">
+                    <a href="javascript:document.getElementById('content-iframe').contentWindow.location.reload();" layadmin-event="refresh" title="刷新">
+                        <i class="layui-icon layui-icon-refresh-3"></i>
+                    </a>
+                </li>
+
+                <span class="layui-nav-bar" style="left: 198px; top: 48px; width: 0px; opacity: 0;"></span></ul>
+                <ul class="layui-nav layui-layout-right">
+                    <li class="layui-nav-item">
+                        <a href="javascript:;">{$admin_data.username}</a>
+                        <dl class="layui-nav-child">
+                            <dd><a href="{:url('admin/info',['id'=>$admin_data['id']])}" target="right_content">修改资料</a></dd>
+                            <dd><a href="{:url('login/logout',['id'=>$admin_data['id']])}">退出登录</a></dd>
+                        </dl>
+                    </li>
+                    <li class="layui-nav-item layui-hide-xs" lay-unselect="">
+                        <a href="javascript:;" class="right-bar"><i class="layui-icon layui-icon-more-vertical"></i></a>
+                    </li>
+                </ul>
+        </div>
+
+        <!-- 侧边菜单 -->
+        <div class="layui-side layui-side-menu">
+            <div class="layui-side-scroll">
+                <div class="layui-logo">
+                    <span>{~echo xn_cfg('base.sys_name')}</span>
+                </div>
+
+                <ul class="layui-nav layui-nav-tree" lay-filter="test">
+                    <!-- 侧边导航: <ul class="layui-nav layui-nav-tree layui-nav-side"> -->
+                    {foreach name="menu" item="vo"}
+                        {if condition="!empty($vo['_data'])"}
+                            <li data-name="" data-jump="" class="layui-nav-item">
+                                <a href="javascript:;" lay-tips="{$vo.title}">
+                                    <i class="layui-icon {$vo.icon}"></i> <cite>{$vo.title}</cite>
+                                    <span class="layui-nav-more"></span>
+                                </a>
+
+                                <dl class="layui-nav-child">
+                                    {foreach name="vo._data" item="vv"}
+                                    <dd>
+                                        {if condition="!empty($vv['_data'])"}
+                                            <a href="javascript:;" target="right_content">{$vv.title}</a>
+                                            <dl class="layui-nav-child">
+                                            {foreach name="vv._data" item="v"}
+                                                <dd>
+                                                     <a href="{:url($v['name'])}?bcid={$vo.id}_{$vv.id}_{$v.id}" target="right_content">{$v.title}</a>
+                                                </dd>
+                                            {/foreach}
+                                            </dl>
+                                        {else/}
+                                            <a href="{:url($vv['name'])}?bcid={$vo.id}_{$vv.id}" target="right_content">{$vv.title}</a>
+                                        {/if}
+                                    </dd>
+                                    {/foreach}
+                                </dl>
+                            </li>
+                       {else/}
+                            <li class="layui-nav-item">
+                                <a href="{:url($vo['name'])}?bcid={$vo.id}" target="right_content" lay-tips="{$vo.title}">
+                                    <i class="layui-icon {$vo.icon}"></i>
+                                    <cite>{$vo.title}</cite>
+                                </a>
+                            </li>
+                        {/if}
+                    {/foreach}
+                </ul>
+            </div>
+        </div>
+
+        <!-- 主体内容 -->
+        <div class="layui-body" id="LAY_app_body" style="overflow-y: hidden">
+            <iframe id="content-iframe" src="{:url('home')}" frameborder="0" width="100%" height="100%" name="right_content" scrolling="auto" frameborder="0" scrolling="no"></iframe>
+        </div>
+
+        <!-- 辅助元素，一般用于移动设备下遮罩 -->
+        <div class="layadmin-body-shade" layadmin-event="shade"></div>
+
+    </div>
+
+</div>
+
+{/block}
+
+{block name="js"}
+<script>
+    $('.even_flexible').click(function () {
+        var i_obj = $(this).find('i');
+        if( i_obj.attr('class').indexOf('layui-icon-shrink-right')==-1 ) {
+            $('#LAY_app').removeClass('layadmin-side-shrink');
+            i_obj.removeClass('layui-icon-spread-left').addClass('layui-icon-shrink-right')
+        } else {
+            $('#LAY_app').addClass('layadmin-side-shrink');
+            i_obj.removeClass('layui-icon-shrink-right').addClass('layui-icon-spread-left')
+        }
+    });
+    
+    $('.layui-side-menu').click(function () {
+        if( $('#LAY_app').attr('class').indexOf('layadmin-side-shrink')!=-1 ) {
+            $('.even_flexible').trigger('click');
+        }
+    });
+</script>
+{/block}

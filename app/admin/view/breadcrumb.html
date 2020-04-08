@@ -1,0 +1,10 @@
+{if condition="!empty($breadcrumb)"}
+<div class="layui-card layadmin-header">
+    <div class="layui-breadcrumb" lay-filter="breadcrumb" style="visibility: visible;">
+        <a href="{:url('admin/index/home')}">主页</a>
+        {foreach name="breadcrumb" item="vo"}
+        <a><cite>{$vo.title}</cite></a>
+        {/foreach}
+    </div>
+</div>
+{/if}
