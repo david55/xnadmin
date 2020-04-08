@@ -23,6 +23,12 @@
 public
 ~~~
 
+## 演示
+官网地址：http://xnadmin.cn/
+演示地址：http://xiaoniu.szwangyesheji.com/admin
+登录账号：admin
+登录密码：123456
+
 ## thinkphp6开发文档
 
 [完全开发手册](https://www.kancloud.cn/manual/thinkphp6_0/content)
